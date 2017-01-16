@@ -4,7 +4,7 @@ import sys
 import pygame
 from pygame.sprite import Group
 from settings import Settings
-from player import Player
+from player import Player, Snake
 
 def run_game():
     # Инициализирует игру и создает объект экрана.
@@ -13,7 +13,9 @@ def run_game():
     screen = pygame.display.set_mode(cfg.screen_size)
     pygame.display.set_caption("Name Game")
     # Запуск основного цикла игры.
-    player = Player(cfg, screen, pygame.Rect(0, 0, 32, 32), 'darkcyan')
+    head = Player(cfg, screen, pygame.Rect(0, 0, 32, 32), 'darkcyan')
+    snake = Snake(head)
+
     timer = pygame.time.Clock()
     while True:
         timer.tick(120)
@@ -21,21 +23,21 @@ def run_game():
         for e in pygame.event.get():
             if e.type == pygame.QUIT:
                 sys.exit()
-            elif e.type == pygame.KEYDOWN and e.key == pygame.K_UP:
-                player.stop()
-                player.speedy = - cfg.speed
-            elif e.type == pygame.KEYDOWN and e.key == pygame.K_RIGHT:
-                player.stop()
-                player.speedx = cfg.speed
-            elif e.type == pygame.KEYDOWN and e.key == pygame.K_LEFT:
-                player.stop()
-                player.speedx = - cfg.speed
-            elif e.type == pygame.KEYDOWN and e.key == pygame.K_DOWN:
-                player.stop()
-                player.speedy = cfg.speed
+            if e.type == pygame.KEYDOWN and e.key == pygame.K_UP:
+                snake.stop()
+                snake.speedy = - cfg.speed
+            if e.type == pygame.KEYDOWN and e.key == pygame.K_RIGHT:
+                snake.stop()
+                snake.speedx = cfg.speed
+            if e.type == pygame.KEYDOWN and e.key == pygame.K_LEFT:
+                snake.stop()
+                snake.speedx = - cfg.speed
+            if e.type == pygame.KEYDOWN and e.key == pygame.K_DOWN:
+                snake.stop()
+                snake.speedy = cfg.speed
         screen.fill(pygame.Color('grey'))
-        player.draw(screen)
-        player.update()
+        snake.draw(screen)
+        snake.update()
         # Отображение последнего прорисованного экрана.
         pygame.display.flip()
 
