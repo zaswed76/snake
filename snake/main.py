@@ -24,17 +24,15 @@ def run_game():
             if e.type == pygame.QUIT:
                 sys.exit()
             if e.type == pygame.KEYDOWN and e.key == pygame.K_UP:
-                snake.stop()
-                snake.speedy = - cfg.speed
+                snake.to_top()
             if e.type == pygame.KEYDOWN and e.key == pygame.K_RIGHT:
-                snake.stop()
-                snake.speedx = cfg.speed
+                snake.to_right()
             if e.type == pygame.KEYDOWN and e.key == pygame.K_LEFT:
-                snake.stop()
-                snake.speedx = - cfg.speed
+                snake.to_left()
             if e.type == pygame.KEYDOWN and e.key == pygame.K_DOWN:
+                snake.to_down()
+            if e.type == pygame.KEYDOWN and e.key == pygame.K_SPACE:
                 snake.stop()
-                snake.speedy = cfg.speed
         screen.fill(pygame.Color('grey'))
         snake.draw(screen)
         snake.update()
