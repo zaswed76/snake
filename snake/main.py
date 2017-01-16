@@ -15,6 +15,8 @@ def run_game():
     # Запуск основного цикла игры.
     head = Player(cfg, screen, pygame.Rect(0, 0, 32, 32), 'darkcyan')
     snake = Snake(head)
+    body = Player(cfg, screen, pygame.Rect(0, 0, 32, 32), 'green')
+    snake.add(body)
 
     timer = pygame.time.Clock()
     while True:

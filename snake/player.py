@@ -8,6 +8,9 @@ class Snake(list):
         super().__init__()
         self.append(head)
 
+    def add(self, body):
+        self.append(body)
+
     def to_right(self):
         self[0].direct.right = True
 
@@ -63,15 +66,8 @@ class Player(Sprite):
         self.center_x = self.rect.centerx
         self.center_y = self.rect.centery
 
-
-
-
-
-
     def draw(self, screen):
         screen.blit(self.surface, self.rect)
-
-
 
     def update(self, *args):
         self.check_wall()
@@ -91,6 +87,6 @@ class Player(Sprite):
         """ проверка на столкновение с краем """
         if (self.rect.top < 0 or self.rect.bottom > self.screen_rect.bottom or
             self.rect.left < 0 or self.rect.right > self.screen_rect.right):
-            self.stop()
+            self.direct.stop()
             self.to_start()
 
