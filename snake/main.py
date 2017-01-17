@@ -45,7 +45,7 @@ def run_game():
         snake.draw(screen)
         prize.draw(screen)
         snake.update()
-        logic.update_head(head, prize)
+        logic.update_head(head, prize, snake)
         # Отображение последнего прорисованного экрана.
         pygame.display.flip()
 
