@@ -5,6 +5,7 @@ import pygame
 from pygame.sprite import Group
 from settings import Settings
 from player import Player, Snake
+import logic
 
 
 prize = Group()
@@ -44,6 +45,7 @@ def run_game():
         snake.draw(screen)
         prize.draw(screen)
         snake.update()
+        logic.update_head(head, prize)
         # Отображение последнего прорисованного экрана.
         pygame.display.flip()
 
