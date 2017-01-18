@@ -8,6 +8,8 @@ class Snake(list):
         super().__init__()
         self.append(head)
 
+
+
     def add(self, body):
         self.append(body)
 
@@ -31,8 +33,10 @@ class Snake(list):
             sp.draw(screen)
 
     def update(self):
-        for sp in self:
-            sp.update()
+        self[0].update()
+        for s in self[1:]:
+            s.update_2()
+
 
 
 
@@ -79,6 +83,11 @@ class Player(Sprite):
         elif self.direct.down:
             self.center_y += self.speedy
 
+        self.rect.centerx = self.center_x
+        self.rect.centery = self.center_y
+
+    def update_2(self, x, y):
+        print('update2')
         self.rect.centerx = self.center_x
         self.rect.centery = self.center_y
 
