@@ -21,7 +21,8 @@ def run_game():
     head.to_center()
     snake = Snake(head)
     body = Player(cfg, screen, pygame.Rect(0, 320, 32, 32), 'green')
-    prize.add(body)
+
+    snake.add(body)
 
 
     timer = pygame.time.Clock()

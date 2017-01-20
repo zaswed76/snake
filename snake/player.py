@@ -11,6 +11,10 @@ class Snake(list):
 
 
     def add(self, body):
+        x = self[0].rect.centerx - 32
+        y = self[0].rect.centery
+        body.rect.centerx = x
+        body.rect.centery = y
         self.append(body)
 
     def to_right(self):
@@ -34,8 +38,8 @@ class Snake(list):
 
     def update(self):
         self[0].update()
-        for s in self[1:]:
-            s.update_2()
+        # for s in self[1:]:
+        #     s.update_2()
 
 
 
