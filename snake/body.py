@@ -44,7 +44,7 @@ class Snake(list):
 
 
 
-class Player(Sprite):
+class Body(Sprite):
     def __init__(self, cfg, screen, rect, color, width=0, *groups):
         super().__init__(*groups)
         self.cfg = cfg
@@ -90,10 +90,8 @@ class Player(Sprite):
         self.rect.centerx = self.center_x
         self.rect.centery = self.center_y
 
-    def update_2(self, x, y):
-        print('update2')
-        self.rect.centerx = self.center_x
-        self.rect.centery = self.center_y
+    def old_coordinate(self):
+        return (self.rect.centerx, self.rect.centery)
 
     def check_wall(self):
         """ проверка на столкновение с краем """

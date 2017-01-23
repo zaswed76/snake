@@ -4,7 +4,7 @@ import sys
 import pygame
 from pygame.sprite import Group
 from settings import Settings
-from player import Player, Snake
+from body import Body, Snake
 import logic
 
 
@@ -17,10 +17,10 @@ def run_game():
     screen = pygame.display.set_mode(cfg.screen_size)
     pygame.display.set_caption("Name Game")
     # Запуск основного цикла игры.
-    head = Player(cfg, screen, pygame.Rect(0, 0, 32, 32), 'darkcyan')
+    head = Body(cfg, screen, pygame.Rect(0, 0, 32, 32), 'darkcyan')
     head.to_center()
     snake = Snake(head)
-    body = Player(cfg, screen, pygame.Rect(0, 320, 32, 32), 'green')
+    body = Body(cfg, screen, pygame.Rect(0, 320, 32, 32), 'green')
 
     snake.add(body)
 
@@ -46,6 +46,7 @@ def run_game():
         snake.draw(screen)
         prize.draw(screen)
         snake.update()
+        print(snake[0].old_coordinate())
         # print(len(snake))
         logic.update_head(head, prize, snake)
         # Отображение последнего прорисованного экрана.
