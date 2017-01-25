@@ -1,21 +1,25 @@
-
 from direct import Direct
 import pygame
 from pygame.sprite import Sprite
 
+
 class Snake(list):
-    def __init__(self, head):
+    def __init__(self, body):
         super().__init__()
-        self.append(head)
+        self.append(body)
 
+    @property
+    def last_body(self):
+        return self[-1]
 
+    @property
+    def head(self):
+        return self[0]
 
     def add(self, body):
-        x = self[0].rect.centerx - 32
-        y = self[0].rect.centery
-        body.rect.centerx = x
-        body.rect.centery = y
+        self.__coordinates_accession(body)
         self.append(body)
+        # self.stop()
 
     def to_right(self):
         self[0].direct.right = True
@@ -38,10 +42,26 @@ class Snake(list):
 
     def update(self):
         self[0].update()
-        # for s in self[1:]:
-        #     s.update_2()
+        for s in self[1:]:
+            s.update()
 
-
+    def __coordinates_accession(self, body):
+        last_body = self.last_body
+        direct = last_body.direct  # куда двигалсся в момент столкновения
+        if str(direct) == Direct.Right:
+            body.rect.right = last_body.rect.left
+            body.rect.centery = last_body.rect.centery
+            body.center_x = body.rect.centerx
+            body.center_y= body.rect.centery
+        elif str(direct) == Direct.Left:
+            body.rect.left = last_body.rect.right
+            body.rect.centery = last_body.rect.centery
+        elif str(direct) == Direct.Top:
+            body.rect.centerx = last_body.rect.centerx
+            body.rect.top = last_body.rect.bottom
+        elif str(direct) == Direct.Down:
+            body.rect.centerx = last_body.rect.centerx
+            body.rect.bottom = last_body.rect.top
 
 
 class Body(Sprite):
@@ -57,8 +77,6 @@ class Body(Sprite):
         self.width = width
         self.rect = rect
         self.direct = Direct()
-
-        # Каждый новый корабль появляется у нижнего края экрана.
 
         # Сохранение вещественной координаты центра корабля.
         self.center_x = float(self.rect.centerx)
@@ -77,6 +95,25 @@ class Body(Sprite):
         screen.blit(self.image, self.rect)
 
     def update(self, *args):
+
+        self.center_x += self.speedx
+        self.rect.centerx = self.center_x
+        self.rect.centery = self.center_y
+    def old_coordinate(self):
+        return (self.rect.centerx, self.rect.centery)
+
+    def check_wall(self):
+        """ проверка на столкновение с краем """
+        if (self.rect.top < 0 or self.rect.bottom > self.screen_rect.bottom or
+            self.rect.left < 0 or self.rect.right > self.screen_rect.right):
+            self.direct.stop()
+            self.to_center()
+
+class Head(Body):
+    def __init__(self, cfg, screen, rect, color, *groups):
+        super().__init__(cfg, screen, rect, color, *groups)
+
+    def update(self, *args):
         self.check_wall()
         if self.direct.right:
             self.center_x += self.speedx
@@ -89,14 +126,3 @@ class Body(Sprite):
 
         self.rect.centerx = self.center_x
         self.rect.centery = self.center_y
-
-    def old_coordinate(self):
-        return (self.rect.centerx, self.rect.centery)
-
-    def check_wall(self):
-        """ проверка на столкновение с краем """
-        if (self.rect.top < 0 or self.rect.bottom > self.screen_rect.bottom or
-            self.rect.left < 0 or self.rect.right > self.screen_rect.right):
-            self.direct.stop()
-            self.to_center()
-

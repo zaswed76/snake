@@ -2,6 +2,11 @@ from enum import Enum
 
 
 class Direct:
+    Top = '_top'
+    Right = '_right'
+    Down = '_down'
+    Left = '_left'
+
     def __init__(self):
         self._top = False
         self._right = False
@@ -48,7 +53,10 @@ class Direct:
         self._left = v
 
     def __repr__(self):
-        return 't={}, r={}, d={}, l={}'.format(*list(self.__dict__.values()))
+        for k, v in self.__dict__.items():
+            if v:
+                return '{}'.format(k)
+
 
 if __name__ == '__main__':
     d = Direct()

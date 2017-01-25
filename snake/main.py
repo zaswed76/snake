@@ -4,11 +4,11 @@ import sys
 import pygame
 from pygame.sprite import Group
 from settings import Settings
-from body import Body, Snake
+from body import Body, Snake, Head
 import logic
 
 
-prize = Group()
+
 
 def run_game():
     # Инициализирует игру и создает объект экрана.
@@ -17,12 +17,13 @@ def run_game():
     screen = pygame.display.set_mode(cfg.screen_size)
     pygame.display.set_caption("Name Game")
     # Запуск основного цикла игры.
-    head = Body(cfg, screen, pygame.Rect(0, 0, 32, 32), 'darkcyan')
+    prize = Group()
+    head = Head(cfg, screen, pygame.Rect(0, 0, 32, 32), 'darkcyan')
     head.to_center()
     snake = Snake(head)
-    body = Body(cfg, screen, pygame.Rect(0, 320, 32, 32), 'green')
+    body = Body(cfg, screen, pygame.Rect(200, 320, 32, 32), 'green')
 
-    snake.add(body)
+    prize.add(body)
 
 
     timer = pygame.time.Clock()
@@ -46,7 +47,7 @@ def run_game():
         snake.draw(screen)
         prize.draw(screen)
         snake.update()
-        print(snake[0].old_coordinate())
+        # print(snake[0].direct)
         # print(len(snake))
         logic.update_head(head, prize, snake)
         # Отображение последнего прорисованного экрана.
