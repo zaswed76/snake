@@ -43,7 +43,7 @@ class Snake(list):
     def update(self):
         self[0].update()
         for s in self[1:]:
-            s.update()
+            s.update(self[0].direct)
 
     def __coordinates_accession(self, body):
         last_body = self.last_body
@@ -95,8 +95,11 @@ class Body(Sprite):
         screen.blit(self.image, self.rect)
 
     def update(self, *args):
-
-        self.center_x += self.speedx
+        direct = args[0]
+        if str(direct) == Direct.Right:
+            self.center_x += self.speedx
+        elif str(direct) == Direct.Top:
+            self.center_y -= self.speedy
         self.rect.centerx = self.center_x
         self.rect.centery = self.center_y
     def old_coordinate(self):
@@ -112,6 +115,7 @@ class Body(Sprite):
 class Head(Body):
     def __init__(self, cfg, screen, rect, color, *groups):
         super().__init__(cfg, screen, rect, color, *groups)
+        self.direct = Direct()
 
     def update(self, *args):
         self.check_wall()
