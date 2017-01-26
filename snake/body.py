@@ -42,8 +42,8 @@ class Snake(list):
 
     def update(self):
         self[0].update()
-        for s in self[1:]:
-            s.update(self[0].direct)
+        # for s in self[1:]:
+        #     s.update(self[0].direct)
 
     def __coordinates_accession(self, body):
         last_body = self.last_body
@@ -130,3 +130,51 @@ class Head(Body):
 
         self.rect.centerx = self.center_x
         self.rect.centery = self.center_y
+
+class Image(Sprite):
+    def __init__(self, cfg, screen, image):
+        super().__init__()
+        self.cfg = cfg
+        self.screen = screen
+        self.screen_rect = self.screen.get_rect()
+        self.image = pygame.image.load(image)
+        self.rect = self.image.get_rect()
+        self.direct = Direct()
+
+        # Сохранение вещественной координаты центра корабля.
+        self.center_x = float(self.rect.centerx)
+        self.center_y = float(self.rect.centery)
+
+        self.speedx = cfg.speed
+        self.speedy = cfg.speed
+
+    def to_center(self):
+        self.rect.centerx = self.screen_rect.centerx
+        self.rect.centery = self.screen_rect.centery
+        self.center_x = self.rect.centerx
+        self.center_y = self.rect.centery
+
+    def draw(self, screen):
+        screen.blit(self.image, self.rect)
+
+    def update(self, *args):
+        self.check_wall()
+        if self.direct.right:
+            self.center_x += self.speedx
+        elif self.direct.left:
+            self.center_x -= self.speedx
+        elif self.direct.top:
+            self.center_y -= self.speedy
+        elif self.direct.down:
+            self.center_y += self.speedy
+
+        self.rect.centerx = self.center_x
+        self.rect.centery = self.center_y
+
+
+    def check_wall(self):
+        """ проверка на столкновение с краем """
+        if (self.rect.top < 0 or self.rect.bottom > self.screen_rect.bottom or
+            self.rect.left < 0 or self.rect.right > self.screen_rect.right):
+            self.direct.stop()
+            self.to_center()

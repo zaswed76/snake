@@ -4,7 +4,7 @@ import sys
 import pygame
 from pygame.sprite import Group
 from settings import Settings
-from body import Body, Snake, Head
+from body import Body, Snake, Head, Image
 import logic
 
 
@@ -18,12 +18,12 @@ def run_game():
     pygame.display.set_caption("Name Game")
     # Запуск основного цикла игры.
     prize = Group()
-    head = Head(cfg, screen, pygame.Rect(0, 0, 32, 32), 'darkcyan')
-    head.to_center()
+    cart = 'images/cartoon.png'
+    head = Image(cfg, screen, cart)
     snake = Snake(head)
-    body = Body(cfg, screen, pygame.Rect(200, 320, 32, 32), 'green')
+    head.to_center()
+    print(snake)
 
-    prize.add(body)
 
 
     timer = pygame.time.Clock()
